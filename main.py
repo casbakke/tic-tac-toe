@@ -121,15 +121,18 @@ def button_clicked(ident): # when a button is clicked
         txt = eval(f"btn_{ident}")["text"] # get the corresponding button object
         if txt == "": # if the button has no text
             eval(f"btn_{ident}")["text"] = player # set text to player's letter
-            if check_win(): # if the game has finished
+            if check_win(): # if the game has been won
                 won(player)
-            else:
+            elif check_draw(): # if the game is drawn
+                draw()
+            else: # instead continue playing
                 player = "X" if (player == "O") else "O"
                 lbl_status["text"] = f"{player}'s Turn"
     else:
         for btn in frm_board.winfo_children():
             btn["text"] = ""
-        player = "X"
+        players = ["X", "O"]
+        player = players[randint(0,1)]
         lbl_status["text"] = f"{player}'s Turn"
         stopped = False
 
@@ -137,9 +140,23 @@ def check_win(): # determine if the game has finished, returns T/F
     pass # code here
     return False
 
+def check_draw(): # determine if the game board has been filled up with no winner
+    str = ""
+    for tile in frm_board.winfo_children():
+        str = str + tile["text"]
+    if len(str) != 9:
+        return False
+    else:
+        return True
+
 def won(winner):
     global stopped
     stopped = True
     lbl_status["text"] = f"{winner} Wins!"
+
+def draw():
+    global stopped
+    stopped = True
+    lbl_status["text"] = "Draw!"
 
 window.mainloop()
