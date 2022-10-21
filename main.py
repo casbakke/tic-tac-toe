@@ -1,5 +1,4 @@
 import tkinter as tk # for graphical interface
-from random import randint # for randomized player selection
 
 font0 = ("Arial", 48)
 font1 = ("Arial", 64)
@@ -134,13 +133,63 @@ def button_clicked(ident): # when a button is clicked
     else: # if the game is stopped, reset the board
         for btn in frm_board.winfo_children(): # get all buttons in the window
             btn["text"] = "" # set button text to null
-        players = ["X", "O"]
-        player = players[randint(0,1)] # choose random player
+        player = "X" if (player == "O") else "O"
         lbl_status["text"] = f"{player}'s Turn"
         stopped = False
 
 def check_win(): # determine if the game has finished, returns T/F
-    pass # code here
+    pass
+
+    a1 = btn_A1["text"]
+    a2 = btn_A2["text"]
+    a3 = btn_A3["text"]
+    b1 = btn_B1["text"]
+    b2 = btn_B2["text"]
+    b3 = btn_B3["text"]
+    c1 = btn_C1["text"]
+    c2 = btn_C2["text"]
+    c3 = btn_C3["text"]
+
+    # top row
+    if a1 != "":
+        if a1 == a2 == a3:
+            return True
+    
+    # middle row
+    if b1 != "":
+        if b1 == b2 == b3:
+            return True
+
+    # bottom row
+    if c1 != "":
+        if c1 == c2 == c3:
+            return True
+
+    # left column
+    if a1 != "":
+        if a1 == b1 == c1:
+            return True
+
+    # middle column
+    if a2 != "":
+        if a2 == b2 == c2:
+            return True
+
+    # right column
+    if a3 != "":
+        if a3 == b3 == c3:
+            return True
+
+    # NW/SE diagonal
+    if a1 != "":
+        if a1 == b2 == c3:
+            return True
+
+    # NE/SW diagonal
+    if a3 != "":
+        if a3 == b2 == c1:
+            return True
+
     return False
 
 def check_draw(): # determine if the game board has been filled up with no winner
